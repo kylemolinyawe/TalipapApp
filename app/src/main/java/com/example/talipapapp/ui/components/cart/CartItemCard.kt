@@ -35,7 +35,7 @@ fun CartItemCard(
         it.id == item.product.sellerId
     }
 
-    val itemTotal = item.product.price * item.quantity
+    val price = item.product.price
 
     Row(
         modifier = Modifier
@@ -65,7 +65,7 @@ fun CartItemCard(
             )
 
             Text(
-                "₱$itemTotal",
+                "₱ %.2f".format(price),
                 fontWeight = FontWeight.Bold
             )
 
