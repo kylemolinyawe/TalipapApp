@@ -17,48 +17,13 @@ fun BrowseScreen() {
 
     Column(modifier = Modifier.fillMaxSize()) {
 
-        // Header
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFF0F5E3B))
-                .padding(top = 48.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
-        ) {
-            Text("Browse Produce", color = Color.White, fontWeight = FontWeight.Bold)
-            Text("234 items available today", color = Color(0xFFE0E0E0))
+        BrowseHeaderSection()
 
-            Spacer(modifier = Modifier.height(12.dp))
-
-            OutlinedTextField(
-                value = "",
-                onValueChange = {},
-                placeholder = { Text("Search products") },
-                modifier = Modifier.fillMaxWidth(),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White
-                )
-            )
-        }
-
-        // Category Bar
         CategoryBar()
 
-        // SCROLLABLE SELLER LIST
-        Column(modifier = Modifier.fillMaxSize()) {
-
-            LazyColumn {
-                items(SellerDataSource.sellers) { seller ->
-
-                    val sellerProducts = SellerDataSource.products
-                        .filter { it.sellerId == seller.id }
-
-                    SellerCard(
-                        seller = seller,
-                        products = sellerProducts
-                    )
-                }
-            }
-        }
+        SellerListSection(
+            sellers = SellerDataSource.sellers,
+            products = SellerDataSource.products
+        )
     }
 }

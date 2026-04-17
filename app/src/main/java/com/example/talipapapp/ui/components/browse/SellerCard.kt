@@ -43,7 +43,7 @@ fun SellerCard(
                     model = seller.imageUrl,
                     contentDescription = null,
                     modifier = Modifier
-                        .size(64.dp)
+                        .size(68.dp)
                         .border(1.dp, Color.LightGray)
                 )
 
@@ -56,12 +56,17 @@ fun SellerCard(
                     )
 
                     Text(
+                        seller.location,
+                        style = MaterialTheme.typography.bodySmall
+                    )
+
+                    Text(
                         seller.deliveryTime,
                         style = MaterialTheme.typography.bodySmall
                     )
 
                     Text(
-                        text = "₱%.2f".format(seller.deliveryFee),
+                        text = "₱ %.2f".format(seller.deliveryFee),
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
@@ -75,7 +80,7 @@ fun SellerCard(
             ) {
                 items(products) { product ->
                     ProductItem(
-                        price = "₱%.1f".format(product.price),
+                        price = "₱ %.2f".format(product.price),
                         name = product.name,
                         imageUrl = product.imageUrl
                     )
