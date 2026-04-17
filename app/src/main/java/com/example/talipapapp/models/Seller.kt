@@ -5,6 +5,6 @@ data class Seller(
     val id: Int,
     val name: String,
     val deliveryTime: String,
-    val deliveryFee: String,
+    val deliveryFee: Double,
     val imageUrl: String
 )

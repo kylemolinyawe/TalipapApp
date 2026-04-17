@@ -61,7 +61,7 @@ fun SellerCard(
                     )
 
                     Text(
-                        seller.deliveryFee,
+                        text = "₱%.2f".format(seller.deliveryFee),
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
@@ -75,7 +75,7 @@ fun SellerCard(
             ) {
                 items(products) { product ->
                     ProductItem(
-                        price = product.price,
+                        price = "₱%.1f".format(product.price),
                         name = product.name,
                         imageUrl = product.imageUrl
                     )

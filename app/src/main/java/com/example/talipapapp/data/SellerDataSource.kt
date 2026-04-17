@@ -8,9 +8,9 @@ object SellerDataSource {
 
     // 🔹 RAW SELLERS (no IDs)
     private val rawSellers = listOf(
-        Triple("Farmer Juan", "30 mins", "₱50"),
-        Triple("Farmer Cortez", "30 mins", "₱50"),
-        Triple("Farmer Ana", "45 mins", "₱40")
+        Triple("Farmer Juan", "30 mins", 50.0),
+        Triple("Farmer Cortez", "30 mins", 50.0),
+        Triple("Farmer Ana", "45 mins", 40.0)
     )
 
     // 🔹 FINAL SELLERS (IDs auto-generated)
@@ -24,31 +24,32 @@ object SellerDataSource {
         )
     }
     private val rawProducts = listOf(
-        Triple(1, "Tomatoes", "₱20"),
-        Triple(1, "Carrots", "₱35"),
-        Triple(1, "Milk", "₱50"),
-        Triple(1, "Milk", "₱50"),
-        Triple(1, "Milk", "₱50"),
-        Triple(1, "Milk", "₱50"),
-        Triple(1, "Milk", "₱50"),
-        Triple(1, "Milk", "₱50"),
-        Triple(2, "Eggs", "₱10"),
-        Triple(2, "Eggs", "₱10"),
-        Triple(2, "Eggs", "₱10"),
-        Triple(2, "Eggs", "₱10"),
-        Triple(2, "Eggs", "₱10"),
-        Triple(2, "Eggs", "₱10"),
-        Triple(2, "Eggs", "₱10"),
-        Triple(2, "Eggs", "₱10"),
-        Triple(3, "Mango", "₱10"),
-        Triple(3, "Mango", "₱10"),
-        Triple(3, "Mango", "₱10"),
-        Triple(3, "Mango", "₱10"),
-        Triple(3, "Mango", "₱10"),
-        Triple(3, "Mango", "₱10"),
-        Triple(3, "Mango", "₱10"),
-        Triple(3, "Mango", "₱10")
+        Triple(1, "Tomatoes", 20.0),
+        Triple(1, "Carrots", 35.0),
+        Triple(1, "Milk", 50.0),
+        Triple(1, "Milk", 50.0),
+        Triple(1, "Milk", 50.0),
+        Triple(1, "Milk", 50.0),
+        Triple(1, "Milk", 50.0),
+        Triple(1, "Milk", 50.0),
+        Triple(2, "Eggs", 10.0),
+        Triple(2, "Eggs", 10.0),
+        Triple(2, "Eggs", 10.0),
+        Triple(2, "Eggs", 10.0),
+        Triple(2, "Eggs", 10.0),
+        Triple(2, "Eggs", 10.0),
+        Triple(2, "Eggs", 10.0),
+        Triple(2, "Eggs", 10.0),
+        Triple(3, "Mango", 10.0),
+        Triple(3, "Mango", 10.0),
+        Triple(3, "Mango", 10.0),
+        Triple(3, "Mango", 10.0),
+        Triple(3, "Mango", 10.0),
+        Triple(3, "Mango", 10.0),
+        Triple(3, "Mango", 10.0),
+        Triple(3, "Mango", 10.0)
     )
+
 
     val products = rawProducts.mapIndexed { index, (sellerId, name, price) ->
         Product(
