@@ -20,10 +20,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.talipapapp.data.CartDataSource
 
 @Composable
-fun CartScreen() {
+fun CartScreen(navController: NavHostController) {
 
     val uniqueItems = CartDataSource.cart.items.size
     val totalQuantity = CartDataSource.cart.items.sumOf { it.quantity }
@@ -73,6 +74,9 @@ fun CartScreen() {
         // 🔹 Fixed Bottom Section
         CartBottomSection(
             total = total,
+            onClickCheckout = {
+                navController.navigate("checkout")
+            },
             modifier = Modifier.align(Alignment.BottomCenter)
         )
     }

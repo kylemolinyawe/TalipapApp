@@ -17,6 +17,7 @@ import com.example.talipapapp.ui.components.home.HomeScreen
 import com.example.talipapapp.ui.components.profile.ProfileScreen
 import com.example.talipapapp.ui.components.browse.BrowseScreen
 import com.example.talipapapp.ui.components.cart.CartScreen
+import com.example.talipapapp.ui.components.checkout.CheckoutScreen
 import com.example.talipapapp.ui.components.foryou.ForYouScreen
 import com.example.talipapapp.ui.theme.TalipapAppTheme
 import com.example.talipapapp.utils.Constants
@@ -80,12 +81,16 @@ fun NavHostContainer(
             }
 
             composable("cart"){
-                CartScreen()
+                CartScreen(navController)
             }
 
             // route : profile
             composable("profile") {
                 ProfileScreen()
+            }
+
+            composable("checkout") {
+                CheckoutScreen(navController)
             }
 
 

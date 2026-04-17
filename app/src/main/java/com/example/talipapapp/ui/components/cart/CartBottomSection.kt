@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CartBottomSection(
     total: Double,
+    onClickCheckout: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -56,7 +57,7 @@ fun CartBottomSection(
 
         // Button
         Button(
-            onClick = { /* TODO */ },
+            onClick = onClickCheckout,
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF0F5E3B), // 👈 your green
