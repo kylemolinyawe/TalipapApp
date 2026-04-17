@@ -22,42 +22,44 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.talipapapp.data.CartDataSource
+import com.example.talipapapp.data.CartRepository
 
 @Composable
 fun CartScreen(navController: NavHostController) {
 
-    val uniqueItems = CartDataSource.cart.items.size
-    val totalQuantity = CartDataSource.cart.items.sumOf { it.quantity }
+    val cart = CartRepository.cart  // MUST be read here
 
-    val subtotal = CartDataSource.cart.totalPrice().toDouble()
+    val items = cart.items
+
+    val uniqueItems = items.size
+    val totalQuantity = items.sumOf { it.quantity }
+
+    val subtotal = cart.totalPrice().toDouble()
 
     val deliveryFee = 50.0
     val serviceFee = 5.0
-
     val total = subtotal + deliveryFee + serviceFee
 
     Box(modifier = Modifier.fillMaxSize()) {
 
         Column(modifier = Modifier.fillMaxSize()) {
 
-            // static header
             CartHeaderSection(
                 uniqueItems = uniqueItems,
                 totalQuantity = totalQuantity
             )
 
-            // scrollable content
             LazyColumn(
                 modifier = Modifier
-                    .weight(1f) // takes remaining space
+                    .weight(1f)
                     .fillMaxWidth()
             ) {
 
-                items(CartDataSource.cart.items) { cartItem ->
+                items(items) { cartItem ->
                     CartItemCard(
                         item = cartItem,
-                        onDecrease = {},
-                        onIncrease = {}
+                        onDecrease = { CartRepository.decrease(cartItem.product.id) },
+                        onIncrease = { CartRepository.increase(cartItem.product.id) }
                     )
                 }
 
@@ -71,7 +73,6 @@ fun CartScreen(navController: NavHostController) {
             }
         }
 
-        // fixed bottom section
         CartBottomSection(
             total = total,
             onClickCheckout = {

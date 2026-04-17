@@ -21,13 +21,8 @@ fun SellerListSection(
     ) {
         items(sellers) { seller ->
 
-            val sellerProducts = products.filter {
-                it.sellerId == seller.id
-            }
-
             SellerCard(
                 seller = seller,
-                products = products,
                 onProductClick = { productId ->
                     navController.navigate("product/$productId")
                 }
