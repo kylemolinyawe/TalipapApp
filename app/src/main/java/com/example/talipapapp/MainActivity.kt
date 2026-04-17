@@ -26,29 +26,36 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             TalipapAppTheme(dynamicColor = false, darkTheme = false) {
+
                 val navController = rememberNavController()
-                Surface(color = Color.White) {
-                    // Scaffold Component
-                    Scaffold(
-                        // Global Background Color
-                        containerColor = Color.White,
-                        contentWindowInsets = WindowInsets(0, 0, 0, 0),
-                        // Bottom navigation
-                        bottomBar = {
+
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentRoute = navBackStackEntry?.destination?.route
+
+                Scaffold(
+                    containerColor = Color.White,
+                    contentWindowInsets = WindowInsets(0, 0, 0, 0),
+
+                    // 🔥 HIDE bottom nav on checkout
+                    bottomBar = {
+                        if (currentRoute != "checkout") {
                             BottomNavigationBar(navController = navController)
-                        }, content = { padding ->
-                            // Nav host: where screens are placed
-                            NavHostContainer(navController = navController, padding = padding)
                         }
+                    }
+                ) { padding ->
+
+                    NavHostContainer(
+                        navController = navController,
+                        padding = padding
                     )
                 }
             }
         }
     }
 }
-
 @Composable
 fun NavHostContainer(
     navController: NavHostController,
