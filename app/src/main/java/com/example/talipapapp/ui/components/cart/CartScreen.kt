@@ -59,7 +59,10 @@ fun CartScreen(navController: NavHostController) {
                     CartItemCard(
                         item = cartItem,
                         onDecrease = { CartRepository.decrease(cartItem.product.id) },
-                        onIncrease = { CartRepository.increase(cartItem.product.id) }
+                        onIncrease = { CartRepository.increase(cartItem.product.id) },
+                        onClickProduct = { productId ->
+                            navController.navigate("product/$productId")
+                        }
                     )
                 }
 
