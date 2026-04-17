@@ -10,6 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.talipapapp.data.CartDataSource
+import com.example.talipapapp.data.CartRepository
 
 @Composable
 fun CheckoutSummarySection(
@@ -18,7 +19,7 @@ fun CheckoutSummarySection(
     modifier: Modifier = Modifier
 ) {
 
-    val cart = CartDataSource.cart
+    val cart = CartRepository.cart
 
     // ✅ computed subtotal
     val subtotal = cart.items.sumOf { item ->
