@@ -1,6 +1,7 @@
 package com.example.talipapapp.data
 
 import com.example.talipapapp.models.Product
+import com.example.talipapapp.data.ProductDescriptions
 
 object ProductDataSource {
     data class ProductRaw(
@@ -48,12 +49,19 @@ object ProductDataSource {
     )
 
     val products = rawProducts.mapIndexed { index, productRaw ->
+
+        val productId = index + 1
+
         Product(
-            id = index + 1,
+            id = productId,
             sellerId = productRaw.sellerId,
             name = productRaw.name,
             price = productRaw.price,
-            imageUrl = ""
+            imageUrl = "",
+            description = ProductDescriptions.list
+                .find { it.id == productId }
+                ?.description
+                .orEmpty()
         )
     }
 }

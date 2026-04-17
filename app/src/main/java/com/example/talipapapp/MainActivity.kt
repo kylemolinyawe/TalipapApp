@@ -36,13 +36,21 @@ class MainActivity : ComponentActivity() {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
 
+                val hideBottomBarRoutes = listOf(
+                    "checkout",
+                    "product"
+                )
+
+                val currentBaseRoute = currentRoute?.substringBefore("/")
+
+                val showBottomBar = currentBaseRoute !in hideBottomBarRoutes
+
                 Scaffold(
                     containerColor = Color.White,
                     contentWindowInsets = WindowInsets(0, 0, 0, 0),
 
-                    // 🔥 HIDE bottom nav on checkout
                     bottomBar = {
-                        if (currentRoute != "checkout") {
+                        if (showBottomBar) {
                             BottomNavigationBar(navController = navController)
                         }
                     }
