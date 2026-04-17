@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import com.example.talipapapp.models.Product
 import com.example.talipapapp.models.Seller
 
@@ -12,7 +13,8 @@ import com.example.talipapapp.models.Seller
 @Composable
 fun SellerListSection(
     sellers: List<Seller>,
-    products: List<Product>
+    products: List<Product>,
+    navController: NavHostController
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
@@ -25,7 +27,10 @@ fun SellerListSection(
 
             SellerCard(
                 seller = seller,
-                products = sellerProducts
+                products = products,
+                onProductClick = { productId ->
+                    navController.navigate("product/$productId")
+                }
             )
         }
     }
