@@ -4,7 +4,8 @@ package com.example.talipapapp.models
 data class Seller(
     val id: Int,
     val name: String,
+    val location: String,
     val deliveryTime: String,
-    val deliveryFee: String,
+    val deliveryFee: Double,
     val imageUrl: String
 )

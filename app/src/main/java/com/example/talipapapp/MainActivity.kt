@@ -57,8 +57,8 @@ fun NavHostContainer(
     NavHost(
         navController = navController,
 
-        // set the start destination as home
-        startDestination = "browse",
+        // set the start destination
+        startDestination = "cart",
 
         // Set the padding provided by scaffold
         modifier = Modifier.padding(paddingValues = padding),
