@@ -19,10 +19,9 @@ import androidx.compose.ui.unit.dp
 fun CartSubtotalSection(
     subtotal: Double,
     deliveryFee: Double,
-    riderTip: Double,
     serviceFee: Double
 ) {
-    val total = subtotal + deliveryFee + riderTip + serviceFee
+    val total = subtotal + deliveryFee + serviceFee
 
     Column(
         modifier = Modifier
@@ -41,7 +40,6 @@ fun CartSubtotalSection(
 
         PriceRow("Subtotal", subtotal)
         PriceRow("Delivery fee", deliveryFee)
-        PriceRow("Rider tip", riderTip)
         PriceRow("Service fee", serviceFee)
 
         Spacer(modifier = Modifier.height(4.dp))

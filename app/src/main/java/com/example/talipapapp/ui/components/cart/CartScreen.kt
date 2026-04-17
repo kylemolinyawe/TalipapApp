@@ -32,46 +32,46 @@ fun CartScreen(navController: NavHostController) {
     val subtotal = CartDataSource.cart.totalPrice().toDouble()
 
     val deliveryFee = 50.0
-    val riderTip = 0.0
-    val serviceFee = 10.0
+    val serviceFee = 5.0
 
-    val total = subtotal + deliveryFee + riderTip + serviceFee
+    val total = subtotal + deliveryFee + serviceFee
 
     Box(modifier = Modifier.fillMaxSize()) {
 
-        // 🔹 Scrollable Content
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 80.dp) // 👈 leave space for bottom bar
-        ) {
+        Column(modifier = Modifier.fillMaxSize()) {
 
-            item {
-                CartHeaderSection(
-                    uniqueItems = uniqueItems,
-                    totalQuantity = totalQuantity
-                )
-            }
+            // static header
+            CartHeaderSection(
+                uniqueItems = uniqueItems,
+                totalQuantity = totalQuantity
+            )
 
-            items(CartDataSource.cart.items) { cartItem ->
-                CartItemCard(
-                    item = cartItem,
-                    onDecrease = {},
-                    onIncrease = {}
-                )
-            }
+            // scrollable content
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f) // takes remaining space
+                    .fillMaxWidth()
+            ) {
 
-            item {
-                CartSubtotalSection(
-                    subtotal = subtotal,
-                    deliveryFee = deliveryFee,
-                    riderTip = riderTip,
-                    serviceFee = serviceFee
-                )
+                items(CartDataSource.cart.items) { cartItem ->
+                    CartItemCard(
+                        item = cartItem,
+                        onDecrease = {},
+                        onIncrease = {}
+                    )
+                }
+
+                item {
+                    CartSubtotalSection(
+                        subtotal = subtotal,
+                        deliveryFee = deliveryFee,
+                        serviceFee = serviceFee
+                    )
+                }
             }
         }
 
-        // 🔹 Fixed Bottom Section
+        // fixed bottom section
         CartBottomSection(
             total = total,
             onClickCheckout = {

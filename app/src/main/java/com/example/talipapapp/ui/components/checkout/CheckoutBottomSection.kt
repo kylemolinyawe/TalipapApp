@@ -1,4 +1,4 @@
-package com.example.talipapapp.ui.components.cart
+package com.example.talipapapp.ui.components.checkout
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CartBottomSection(
+fun CheckoutBottomSection(
     total: Double,
     onClickCheckout: () -> Unit,
     modifier: Modifier = Modifier
@@ -63,9 +63,11 @@ fun CartBottomSection(
                 containerColor = Color(0xFF0F5E3B), // 👈 your green
                 contentColor = Color.White
             ),
-            shape = RoundedCornerShape(4.dp) // 👈 rounded rectangle
+            shape = RoundedCornerShape(12.dp) // 👈 rounded rectangle
         ) {
-            Text("Review payment and address")
+            Text("Place order")
         }
+
+        Spacer(modifier = Modifier.height(12.dp))
     }
 }
