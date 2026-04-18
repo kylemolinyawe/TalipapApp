@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.talipapapp.data.CartDataSource
+import com.example.talipapapp.data.CartRepository
 import com.example.talipapapp.ui.components.cart.CartBottomSection
 import com.example.talipapapp.ui.components.cart.CartHeaderSection
 import com.example.talipapapp.ui.components.cart.CartItemCard
@@ -24,7 +25,7 @@ import com.example.talipapapp.ui.components.cart.CartSubtotalSection
 @Composable
 fun CheckoutScreen(navController: NavHostController) {
 
-    val cart = CartDataSource.cart
+    val cart = CartRepository.cart
 
     val subtotal = cart.items.sumOf { it.product.price * it.quantity }
     val deliveryFee = 50.0

@@ -19,6 +19,7 @@ import com.example.talipapapp.ui.components.browse.BrowseScreen
 import com.example.talipapapp.ui.components.cart.CartScreen
 import com.example.talipapapp.ui.components.checkout.CheckoutScreen
 import com.example.talipapapp.ui.components.foryou.ForYouScreen
+import com.example.talipapapp.ui.components.product.ProductScreen
 import com.example.talipapapp.ui.theme.TalipapAppTheme
 import com.example.talipapapp.utils.Constants
 
@@ -35,13 +36,21 @@ class MainActivity : ComponentActivity() {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
 
+                val hideBottomBarRoutes = listOf(
+                    "checkout",
+                    "product"
+                )
+
+                val currentBaseRoute = currentRoute?.substringBefore("/")
+
+                val showBottomBar = currentBaseRoute !in hideBottomBarRoutes
+
                 Scaffold(
                     containerColor = Color.White,
                     contentWindowInsets = WindowInsets(0, 0, 0, 0),
 
-                    // 🔥 HIDE bottom nav on checkout
                     bottomBar = {
-                        if (currentRoute != "checkout") {
+                        if (showBottomBar) {
                             BottomNavigationBar(navController = navController)
                         }
                     }
@@ -64,34 +73,26 @@ fun NavHostContainer(
 
     NavHost(
         navController = navController,
-
-        // set the start destination
         startDestination = "cart",
-
-        // Set the padding provided by scaffold
         modifier = Modifier.padding(paddingValues = padding),
-
         builder = {
 
-            // route : Home
             composable("home") {
                 HomeScreen()
             }
 
-            // route : search
             composable("browse") {
-                BrowseScreen()
+                BrowseScreen(navController)
             }
 
-            composable("for you"){
+            composable("for you") {
                 ForYouScreen()
             }
 
-            composable("cart"){
+            composable("cart") {
                 CartScreen(navController)
             }
 
-            // route : profile
             composable("profile") {
                 ProfileScreen()
             }
@@ -100,9 +101,22 @@ fun NavHostContainer(
                 CheckoutScreen(navController)
             }
 
+            // ✅ NEW: Product screen with ID argument
+            composable(
+                route = "product/{productId}"
+            ) { backStackEntry ->
 
-        })
-}
+                val productId = backStackEntry.arguments
+                    ?.getString("productId")
+                    ?.toInt()
+
+                ProductScreen(
+                    productId = productId,
+                    navController = navController
+                )
+            }
+        }
+    )}
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {

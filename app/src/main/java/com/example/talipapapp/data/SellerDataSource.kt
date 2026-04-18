@@ -31,47 +31,4 @@ object SellerDataSource {
             location = sellerRaw.location
         )
     }
-
-    data class ProductRaw(
-        val sellerId: Int,
-        val name: String,
-        val price: Double
-    )
-
-    private val rawProducts = listOf(
-        ProductRaw(1, "Tomatoes", 20.0),
-        ProductRaw(1, "Carrots", 35.0),
-        ProductRaw(1, "Milk", 50.0),
-        ProductRaw(1, "Milk", 50.0),
-        ProductRaw(1, "Milk", 50.0),
-        ProductRaw(1, "Milk", 50.0),
-        ProductRaw(1, "Milk", 50.0),
-        ProductRaw(1, "Milk", 50.0),
-        ProductRaw(2, "Eggs", 10.0),
-        ProductRaw(2, "Eggs", 10.0),
-        ProductRaw(2, "Eggs", 10.0),
-        ProductRaw(2, "Eggs", 10.0),
-        ProductRaw(2, "Eggs", 10.0),
-        ProductRaw(2, "Eggs", 10.0),
-        ProductRaw(2, "Eggs", 10.0),
-        ProductRaw(2, "Eggs", 10.0),
-        ProductRaw(3, "Mango", 10.0),
-        ProductRaw(3, "Mango", 10.0),
-        ProductRaw(3, "Mango", 10.0),
-        ProductRaw(3, "Mango", 10.0),
-        ProductRaw(3, "Mango", 10.0),
-        ProductRaw(3, "Mango", 10.0),
-        ProductRaw(3, "Mango", 10.0),
-        ProductRaw(3, "Mango", 10.0)
-    )
-
-    val products = rawProducts.mapIndexed { index, productRaw ->
-        Product(
-            id = index + 1,
-            sellerId = productRaw.sellerId,
-            name = productRaw.name,
-            price = productRaw.price,
-            imageUrl = ""
-        )
-    }
 }

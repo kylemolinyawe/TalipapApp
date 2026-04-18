@@ -1,10 +1,7 @@
 package com.example.talipapapp.models
 
-data class Product(
+data class ProductDescription(
     val id: Int,
-    val sellerId: Int,
     val name: String,
-    val price: Double,
-    val imageUrl: String,
     val description: String
 )

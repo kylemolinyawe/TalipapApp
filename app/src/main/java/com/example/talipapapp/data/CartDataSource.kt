@@ -2,7 +2,7 @@ package com.example.talipapapp.data
 
 import com.example.talipapapp.models.Cart
 import com.example.talipapapp.models.CartItem
-import com.example.talipapapp.data.SellerDataSource.products
+import com.example.talipapapp.data.ProductDataSource.products
 
 object CartDataSource {
 
@@ -13,27 +13,27 @@ object CartDataSource {
                 quantity = 2
             ),
             CartItem(
-                product = products[2],
+                product = products[1],
+                quantity = 1
+            ),
+            CartItem(
+                product = products[3],
+                quantity = 1
+            ),
+            CartItem(
+                product = products[4],
+                quantity = 1
+            ),
+            CartItem(
+                product = products[6],
+                quantity = 1
+            ),
+            CartItem(
+                product = products[7],
                 quantity = 1
             ),
             CartItem(
                 product = products[2],
-                quantity = 1
-            ),
-            CartItem(
-                product = products[2],
-                quantity = 1
-            ),
-            CartItem(
-                product = products[2],
-                quantity = 1
-            ),
-            CartItem(
-                product = products[2],
-                quantity = 1
-            ),
-            CartItem(
-                product = products[8],
                 quantity = 5
             )
         )

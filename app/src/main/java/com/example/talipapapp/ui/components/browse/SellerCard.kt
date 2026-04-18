@@ -1,6 +1,7 @@
 package com.example.talipapapp.ui.components.browse
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyRow
@@ -14,13 +15,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import com.example.talipapapp.models.Seller
 import coil.compose.AsyncImage
+import com.example.talipapapp.data.ProductRepository
 import com.example.talipapapp.models.Product
 
 @Composable
 fun SellerCard(
     seller: Seller,
-    products: List<Product>
+    onProductClick: (Int) -> Unit
 ) {
+
+    val sellerProducts = ProductRepository.products.filter {
+        it.sellerId == seller.id
+    }
 
     Card(
         modifier = Modifier
@@ -74,16 +80,22 @@ fun SellerCard(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Products (now from parameter)
+            // Products (FROM REPOSITORY)
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                items(products) { product ->
-                    ProductItem(
-                        price = "₱ %.2f".format(product.price),
-                        name = product.name,
-                        imageUrl = product.imageUrl
-                    )
+                items(sellerProducts) { product ->
+                    Box(
+                        modifier = Modifier.clickable {
+                            onProductClick(product.id)
+                        }
+                    ) {
+                        ProductItem(
+                            price = "₱ %.2f".format(product.price),
+                            name = product.name,
+                            imageUrl = product.imageUrl
+                        )
+                    }
                 }
             }
         }

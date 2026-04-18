@@ -8,12 +8,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.talipapapp.models.CartItem
 
-
 @Composable
 fun CartItemsSection(
     items: List<CartItem>,
     onDecrease: (CartItem) -> Unit,
-    onIncrease: (CartItem) -> Unit
+    onIncrease: (CartItem) -> Unit,
+    onClickProduct: (Int) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -24,7 +24,8 @@ fun CartItemsSection(
             CartItemCard(
                 item = cartItem,
                 onDecrease = { onDecrease(cartItem) },
-                onIncrease = { onIncrease(cartItem) }
+                onIncrease = { onIncrease(cartItem) },
+                onClickProduct = onClickProduct
             )
         }
     }

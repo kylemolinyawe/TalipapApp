@@ -52,6 +52,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("io.coil-kt:coil-compose:2.5.0")
     implementation("androidx.compose.animation:animation")
+    implementation("io.noties.markwon:core:4.6.2")
     implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.compose.foundation)
     testImplementation(libs.junit)
