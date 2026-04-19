@@ -6,13 +6,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import com.example.talipapapp.models.Seller
 import coil.compose.AsyncImage
 import com.example.talipapapp.data.ProductRepository
@@ -59,13 +62,19 @@ fun SellerCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                AsyncImage(
-                    model = seller.imageUrl,
-                    contentDescription = null,
+                Box(
                     modifier = Modifier
                         .size(68.dp)
-                        .border(1.dp, Color.LightGray)
-                )
+                        .clip(RoundedCornerShape(12.dp))
+                        .border(1.dp, Color.LightGray, RoundedCornerShape(12.dp))
+                ) {
+                    AsyncImage(
+                        model = seller.imageUrl,
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                }
 
                 Spacer(modifier = Modifier.width(12.dp))
 
@@ -96,7 +105,7 @@ fun SellerCard(
 
             // PRODUCTS (ONLY FILTERED)
             LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(sellerProducts) { product ->
 

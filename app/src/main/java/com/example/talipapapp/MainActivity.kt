@@ -1,17 +1,18 @@
 package com.example.talipapapp
 
 import android.os.Bundle
-import androidx.activity.*
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
+import androidx.navigation.NavType
 import com.example.talipapapp.ui.components.home.HomeScreen
 import com.example.talipapapp.ui.components.profile.ProfileScreen
 import com.example.talipapapp.ui.components.browse.BrowseScreen
@@ -22,10 +23,12 @@ import com.example.talipapapp.ui.components.product.ProductScreen
 import com.example.talipapapp.ui.components.seller.SellerScreen
 import com.example.talipapapp.ui.theme.TalipapAppTheme
 import com.example.talipapapp.utils.Constants
+import com.example.talipapapp.ui.theme.SetStatusBarColor
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
 
         setContent {
@@ -36,15 +39,29 @@ class MainActivity : ComponentActivity() {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
 
-                val hideBottomBarRoutes = listOf(
-                    "checkout",
-                    "product",
-                    "seller"
+                // ✅ FIX 1: Proper route extraction (IMPORTANT)
+                val baseRoute = currentRoute
+                    ?.substringBefore("?")
+                    ?.substringBefore("/")
+
+                val hideBottomBarRoutes = listOf("checkout", "product", "seller")
+                val showBottomBar = baseRoute !in hideBottomBarRoutes
+
+                // 🎯 FIX 2: Decide ICON MODE, NOT COLOR
+                val darkIcons = when (baseRoute) {
+                    "home" -> false      // green header → white icons
+                    "profile" -> false   // green header → white icons
+                    "browse" -> false
+                    "cart" -> false
+                    "checkout" -> false
+                    else -> true         // white screens → dark icons
+                }
+
+                // ✅ FIX 3: Apply system UI correctly
+                SetStatusBarColor(
+                    backgroundColor = Color.Transparent,
+                    darkIcons = darkIcons
                 )
-
-                val currentBaseRoute = currentRoute?.substringBefore("/")
-
-                val showBottomBar = currentBaseRoute !in hideBottomBarRoutes
 
                 Scaffold(
                     containerColor = Color.White,
@@ -52,7 +69,7 @@ class MainActivity : ComponentActivity() {
 
                     bottomBar = {
                         if (showBottomBar) {
-                            BottomNavigationBar(navController = navController)
+                            BottomNavigationBar(navController)
                         }
                     }
                 ) { padding ->
@@ -146,7 +163,7 @@ fun NavHostContainer(
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
 
-    NavigationBar(containerColor = Color(0xFF0F9D58)) {
+    NavigationBar(containerColor = MaterialTheme.colorScheme.primary) {
 
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -187,7 +204,7 @@ fun BottomNavigationBar(navController: NavHostController) {
                     selectedIconColor = Color.White,
                     unselectedIconColor = Color.White,
                     selectedTextColor = Color.White,
-                    indicatorColor = Color(0xFF195334)
+                    indicatorColor = MaterialTheme.colorScheme.secondary
                 )
             )
         }

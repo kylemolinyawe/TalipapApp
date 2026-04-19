@@ -33,7 +33,7 @@ fun HomeHeaderSection(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFF2E7D32)) // 🌿 full green background (touches top edge)
+            .background(MaterialTheme.colorScheme.primary) // 🌿 full green background (touches top edge)
             .statusBarsPadding()          // only affects content, NOT background
             .padding(16.dp, 0.dp, 16.dp, 16.dp)
     ) {

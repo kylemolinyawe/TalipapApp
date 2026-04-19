@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
 import com.example.talipapapp.models.Product
 
@@ -57,18 +58,14 @@ fun SellerProductSection(
                         modifier = Modifier
                             .fillMaxWidth()
                             .aspectRatio(1f)
-                            .border(
-                                1.dp,
-                                Color.LightGray,
-                                RoundedCornerShape(12.dp)
-                            )
-                            .clip(RoundedCornerShape(12.dp))
-                            .padding(6.dp)
+                            .clip(RoundedCornerShape(12.dp)) // clip first
+                            .border(1.dp, Color.LightGray, RoundedCornerShape(12.dp))
                     ) {
                         AsyncImage(
                             model = product.imageUrl,
                             contentDescription = product.name,
-                            modifier = Modifier.fillMaxSize()
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop // 🔥 fill container
                         )
                     }
 

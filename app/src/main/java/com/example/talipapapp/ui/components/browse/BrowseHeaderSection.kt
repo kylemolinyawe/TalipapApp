@@ -23,7 +23,7 @@ fun BrowseHeaderSection() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFF0F5E3B))
+            .background(MaterialTheme.colorScheme.primary)
             .padding(top = 48.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
     ) {
 

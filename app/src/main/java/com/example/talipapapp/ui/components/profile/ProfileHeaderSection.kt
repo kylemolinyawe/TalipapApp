@@ -29,7 +29,7 @@ fun ProfileHeaderSection(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFF2E7D32)) // extends behind status bar
+            .background(MaterialTheme.colorScheme.primary) // extends behind status bar
             .padding(statusBarPadding) // handles status bar height
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically

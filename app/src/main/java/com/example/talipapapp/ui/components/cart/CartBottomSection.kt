@@ -60,7 +60,7 @@ fun CartBottomSection(
             onClick = onClickCheckout,
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF0F5E3B), // 👈 your green
+                containerColor = MaterialTheme.colorScheme.primary, // 👈 your green
                 contentColor = Color.White
             ),
             shape = RoundedCornerShape(4.dp) // 👈 rounded rectangle

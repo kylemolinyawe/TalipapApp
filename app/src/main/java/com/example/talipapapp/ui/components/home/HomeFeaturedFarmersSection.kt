@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -59,18 +60,18 @@ fun HomeFeaturedFarmersSection(
                         modifier = Modifier
                             .fillMaxWidth()
                             .aspectRatio(1f)
+                            .clip(RoundedCornerShape(12.dp))
                             .border(
                                 1.dp,
                                 Color.LightGray,
                                 RoundedCornerShape(12.dp)
                             )
-                            .clip(RoundedCornerShape(12.dp))
-                            .padding(6.dp)
                     ) {
                         AsyncImage(
                             model = seller.imageUrl,
                             contentDescription = seller.name,
-                            modifier = Modifier.fillMaxSize()
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop // ✅ KEY FIX
                         )
                     }
 
