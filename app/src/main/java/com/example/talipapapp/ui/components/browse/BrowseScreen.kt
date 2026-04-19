@@ -15,13 +15,19 @@
     import com.example.talipapapp.data.SellerDataSource
 
     @Composable
-    fun BrowseScreen(navController: NavHostController) {
+    fun BrowseScreen(
+        navController: NavHostController,
+        category: String = "All"   // 🔥 receives from Home
+    ) {
 
         Column(modifier = Modifier.fillMaxSize()) {
 
             BrowseHeaderSection()
 
-            CategoryBar()
+            CategoryBar(
+                initialCategory = category,   // 🔥 sync with Home selection
+                onCategorySelected = { }
+            )
 
             SellerListSection(
                 sellers = SellerDataSource.sellers,

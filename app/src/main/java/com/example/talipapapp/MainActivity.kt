@@ -9,10 +9,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavType
+import androidx.navigation.compose.*
+import androidx.navigation.navArgument
 import com.example.talipapapp.ui.components.home.HomeScreen
 import com.example.talipapapp.ui.components.profile.ProfileScreen
 import com.example.talipapapp.ui.components.browse.BrowseScreen
@@ -67,6 +66,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 @Composable
 fun NavHostContainer(
     navController: NavHostController,
@@ -76,100 +76,118 @@ fun NavHostContainer(
     NavHost(
         navController = navController,
         startDestination = "cart",
-        modifier = Modifier.padding(paddingValues = padding),
-        builder = {
+        modifier = Modifier.padding(padding),
+    ) {
 
-            composable("home") {
-                HomeScreen()
-            }
-
-            composable("browse") {
-                BrowseScreen(navController)
-            }
-
-            composable("for you") {
-                ForYouScreen()
-            }
-
-            composable("cart") {
-                CartScreen(navController)
-            }
-
-            composable("profile") {
-                ProfileScreen()
-            }
-
-            composable("checkout") {
-                CheckoutScreen(navController)
-            }
-
-            // ✅ NEW: Product screen with ID argument
-            composable(
-                route = "product/{productId}"
-            ) { backStackEntry ->
-
-                val productId = backStackEntry.arguments
-                    ?.getString("productId")
-                    ?.toInt()
-
-                ProductScreen(
-                    productId = productId,
-                    navController = navController
-                )
-            }
-
-            composable("seller/{sellerId}") { backStackEntry ->
-                val sellerId = backStackEntry.arguments?.getString("sellerId")?.toInt() ?: 0
-                SellerScreen(sellerId = sellerId, navController)
-            }
+        composable("home") {
+            HomeScreen(navController) // 👈 needed for category navigation
         }
-    )}
 
+        // 🔥 FIXED: browse now accepts category argument
+        composable(
+            route = "browse?category={category}",
+            arguments = listOf(
+                navArgument("category") {
+                    type = NavType.StringType
+                    defaultValue = "All"
+                }
+            )
+        ) { backStackEntry ->
+
+            val category =
+                backStackEntry.arguments?.getString("category") ?: "All"
+
+            BrowseScreen(
+                navController = navController,
+                category = category
+            )
+        }
+
+        composable("for you") {
+            ForYouScreen()
+        }
+
+        composable("cart") {
+            CartScreen(navController)
+        }
+
+        composable("profile") {
+            ProfileScreen()
+        }
+
+        composable("checkout") {
+            CheckoutScreen(navController)
+        }
+
+        composable("product/{productId}") { backStackEntry ->
+
+            val productId = backStackEntry.arguments
+                ?.getString("productId")
+                ?.toInt()
+
+            ProductScreen(
+                productId = productId,
+                navController = navController
+            )
+        }
+
+        composable("seller/{sellerId}") { backStackEntry ->
+            val sellerId = backStackEntry.arguments
+                ?.getString("sellerId")
+                ?.toInt() ?: 0
+
+            SellerScreen(
+                sellerId = sellerId,
+                navController = navController
+            )
+        }
+    }
+}
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
 
-    NavigationBar(
+    NavigationBar(containerColor = Color(0xFF0F9D58)) {
 
-        // set background color
-        containerColor = Color(0xFF0F9D58)) {
-
-        // observe the backstack
         val navBackStackEntry by navController.currentBackStackEntryAsState()
-
-        // observe current route to change the icon
-        // color,label color when navigated
         val currentRoute = navBackStackEntry?.destination?.route
 
-        // Bottom nav items we declared
+        // 🔥 extract base route (IMPORTANT FIX)
+        val currentBaseRoute = currentRoute?.substringBefore("?")?.substringBefore("/")
+
         Constants.BottomNavItems.forEach { navItem ->
 
-            // Place the bottom nav items
             NavigationBarItem(
 
-                // it currentRoute is equal then its selected route
-                selected = currentRoute == navItem.route,
+                // 🔥 FIX: compare base route only
+                selected = currentBaseRoute == navItem.route,
 
-                // navigate on click
                 onClick = {
-                    navController.navigate(navItem.route)
+
+                    // optional: avoid stacking duplicate screens
+                    navController.navigate(navItem.route) {
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 },
 
-                // Icon of navItem
                 icon = {
-                    Icon(imageVector = navItem.icon, contentDescription = navItem.label)
+                    Icon(
+                        imageVector = navItem.icon,
+                        contentDescription = navItem.label
+                    )
                 },
 
-                // label
                 label = {
                     Text(text = navItem.label)
                 },
+
                 alwaysShowLabel = false,
 
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.White, // Icon color when selected
-                    unselectedIconColor = Color.White, // Icon color when not selected
-                    selectedTextColor = Color.White, // Label color when selected
-                    indicatorColor = Color(0xFF195334) // Highlight color for selected item
+                    selectedIconColor = Color.White,
+                    unselectedIconColor = Color.White,
+                    selectedTextColor = Color.White,
+                    indicatorColor = Color(0xFF195334)
                 )
             )
         }

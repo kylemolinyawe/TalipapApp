@@ -12,28 +12,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 
-val categories = listOf(
-    "All",
-    "Vegetables",
-    "Fruits",
-    "Dairy",
-    "Meat",
-    "Fish"
-)
-
 @Composable
-fun CategoryBar() {
-
-    var selectedCategory by remember { mutableStateOf("All") }
+fun CategoryBar(
+    initialCategory: String = "All",
+    onCategorySelected: (String) -> Unit = {}
+) {
 
     val categories = listOf(
         "All",
         "Vegetables",
         "Fruits",
         "Dairy",
-        "Meat",
+        "Pork",
+        "Beef",
+        "Chicken",
         "Fish"
     )
+
+    var selectedCategory by remember { mutableStateOf(initialCategory) }
 
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
@@ -44,7 +40,10 @@ fun CategoryBar() {
 
             FilterChip(
                 selected = selectedCategory == category,
-                onClick = { selectedCategory = category },
+                onClick = {
+                    selectedCategory = category
+                    onCategorySelected(category) // 🔥 sends selection up
+                },
                 label = { Text(category) },
                 shape = RoundedCornerShape(50),
                 colors = FilterChipDefaults.filterChipColors(
