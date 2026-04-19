@@ -21,13 +21,6 @@ object Constants {
             route = "browse"
         ),
 
-        // For You Screen
-        BottomNavItem(
-            label ="For You",
-            icon = Icons.Filled.Star,
-            route = "for you"
-        ),
-
         // Cart Screen
         BottomNavItem(
             label ="Cart",

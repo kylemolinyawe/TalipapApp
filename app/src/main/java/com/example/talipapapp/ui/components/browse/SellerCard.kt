@@ -6,13 +6,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import com.example.talipapapp.models.Seller
 import coil.compose.AsyncImage
 import com.example.talipapapp.data.ProductRepository
@@ -21,12 +24,21 @@ import com.example.talipapapp.models.Product
 @Composable
 fun SellerCard(
     seller: Seller,
-    onProductClick: (Int) -> Unit
+    selectedCategory: String, // 🔥 ADD THIS
+    onProductClick: (Int) -> Unit,
+    onSellerClick: (Int) -> Unit
 ) {
 
-    val sellerProducts = ProductRepository.products.filter {
-        it.sellerId == seller.id
-    }
+    // 🔥 FILTER BY BOTH SELLER + CATEGORY
+    val sellerProducts = ProductRepository.products
+        .filter { it.sellerId == seller.id }
+        .filter {
+            selectedCategory == "All" || it.category == selectedCategory
+        }
+        .take(8)
+
+    // 🔥 DO NOT RENDER SELLER IF NO PRODUCTS MATCH FILTER
+    if (sellerProducts.isEmpty()) return
 
     Card(
         modifier = Modifier
@@ -40,18 +52,29 @@ fun SellerCard(
 
         Column {
 
-            // Seller Info
+            // CLICKABLE SELLER INFO
             Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        onSellerClick(seller.id)
+                    },
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                AsyncImage(
-                    model = seller.imageUrl,
-                    contentDescription = null,
+                Box(
                     modifier = Modifier
                         .size(68.dp)
-                        .border(1.dp, Color.LightGray)
-                )
+                        .clip(RoundedCornerShape(12.dp))
+                        .border(1.dp, Color.LightGray, RoundedCornerShape(12.dp))
+                ) {
+                    AsyncImage(
+                        model = seller.imageUrl,
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                }
 
                 Spacer(modifier = Modifier.width(12.dp))
 
@@ -80,11 +103,12 @@ fun SellerCard(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Products (FROM REPOSITORY)
+            // PRODUCTS (ONLY FILTERED)
             LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(sellerProducts) { product ->
+
                     Box(
                         modifier = Modifier.clickable {
                             onProductClick(product.id)

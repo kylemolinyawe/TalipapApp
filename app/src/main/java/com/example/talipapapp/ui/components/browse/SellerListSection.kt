@@ -13,7 +13,7 @@ import com.example.talipapapp.models.Seller
 @Composable
 fun SellerListSection(
     sellers: List<Seller>,
-    products: List<Product>,
+    selectedCategory: String,
     navController: NavHostController
 ) {
     LazyColumn(
@@ -23,8 +23,12 @@ fun SellerListSection(
 
             SellerCard(
                 seller = seller,
+                selectedCategory = selectedCategory,
                 onProductClick = { productId ->
                     navController.navigate("product/$productId")
+                },
+                onSellerClick = { sellerId ->
+                    navController.navigate("seller/$sellerId")
                 }
             )
         }
