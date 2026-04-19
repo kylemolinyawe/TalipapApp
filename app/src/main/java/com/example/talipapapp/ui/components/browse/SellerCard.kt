@@ -21,13 +21,21 @@ import com.example.talipapapp.models.Product
 @Composable
 fun SellerCard(
     seller: Seller,
+    selectedCategory: String, // 🔥 ADD THIS
     onProductClick: (Int) -> Unit,
     onSellerClick: (Int) -> Unit
 ) {
 
-    val sellerProducts = ProductRepository.products.filter {
-        it.sellerId == seller.id
-    }
+    // 🔥 FILTER BY BOTH SELLER + CATEGORY
+    val sellerProducts = ProductRepository.products
+        .filter { it.sellerId == seller.id }
+        .filter {
+            selectedCategory == "All" || it.category == selectedCategory
+        }
+        .take(8)
+
+    // 🔥 DO NOT RENDER SELLER IF NO PRODUCTS MATCH FILTER
+    if (sellerProducts.isEmpty()) return
 
     Card(
         modifier = Modifier
@@ -86,14 +94,12 @@ fun SellerCard(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Products
-            // *TODO*
-            // Only display the first 8 products, add a right facing arrow at the end
-            // that leads to the seller profile screen
+            // PRODUCTS (ONLY FILTERED)
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 items(sellerProducts) { product ->
+
                     Box(
                         modifier = Modifier.clickable {
                             onProductClick(product.id)

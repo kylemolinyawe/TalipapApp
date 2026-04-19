@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun CategoryBar(
-    initialCategory: String = "All",
+fun BrowseCategoriesSection(
+    selectedCategory: String,
     onCategorySelected: (String) -> Unit = {}
 ) {
 
@@ -29,8 +29,6 @@ fun CategoryBar(
         "Fish"
     )
 
-    var selectedCategory by remember { mutableStateOf(initialCategory) }
-
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(horizontal = 16.dp),
@@ -40,10 +38,7 @@ fun CategoryBar(
 
             FilterChip(
                 selected = selectedCategory == category,
-                onClick = {
-                    selectedCategory = category
-                    onCategorySelected(category) // 🔥 sends selection up
-                },
+                onClick = { onCategorySelected(category) },
                 label = { Text(category) },
                 shape = RoundedCornerShape(50),
                 colors = FilterChipDefaults.filterChipColors(

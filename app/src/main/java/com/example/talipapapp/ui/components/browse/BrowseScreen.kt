@@ -6,6 +6,10 @@
     import androidx.compose.foundation.lazy.items
     import androidx.compose.material3.*
     import androidx.compose.runtime.Composable
+    import androidx.compose.runtime.getValue
+    import androidx.compose.runtime.mutableStateOf
+    import androidx.compose.runtime.remember
+    import androidx.compose.runtime.setValue
     import androidx.compose.ui.Modifier
     import androidx.compose.ui.graphics.Color
     import androidx.compose.ui.text.font.FontWeight
@@ -17,20 +21,25 @@
     @Composable
     fun BrowseScreen(
         navController: NavHostController,
-        category: String = "All"   // 🔥 receives from Home
+        category: String = "All"
     ) {
+
+        var selectedCategory by remember { mutableStateOf(category) }
 
         Column(modifier = Modifier.fillMaxSize()) {
 
             BrowseHeaderSection()
 
-            CategoryBar(
-                initialCategory = category,   // 🔥 sync with Home selection
-                onCategorySelected = { }
+            BrowseCategoriesSection(
+                selectedCategory = selectedCategory,
+                onCategorySelected = {
+                    selectedCategory = it
+                }
             )
 
             SellerListSection(
                 sellers = SellerDataSource.sellers,
+                selectedCategory = selectedCategory, // 🔥 IMPORTANT
                 navController = navController
             )
         }
