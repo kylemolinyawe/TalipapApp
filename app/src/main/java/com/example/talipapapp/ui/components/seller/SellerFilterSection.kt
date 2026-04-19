@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.graphics.Color
 import com.example.talipapapp.R
 
 @Composable
@@ -56,7 +57,24 @@ fun SellerFilterSection(
             },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(12.dp),
+
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color.LightGray,
+                unfocusedBorderColor = Color.LightGray,
+                disabledBorderColor = Color.LightGray,
+
+                // ✅ TEXT COLORS
+                focusedTextColor = Color.Gray,
+                unfocusedTextColor = Color.Gray,
+                disabledTextColor = Color.Gray,
+
+                // ✅ PLACEHOLDER COLORS
+                focusedPlaceholderColor = Color.Gray,
+                unfocusedPlaceholderColor = Color.Gray,
+
+                cursorColor = Color.Gray
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))

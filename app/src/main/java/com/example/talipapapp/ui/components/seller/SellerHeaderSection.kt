@@ -1,6 +1,7 @@
 package com.example.talipapapp.ui.components.seller
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,6 +28,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.talipapapp.data.ProductRepository
+import com.example.talipapapp.data.SellerDataSource
+import com.example.talipapapp.data.SellerRepository
 import com.example.talipapapp.models.Seller
 
 @Composable
@@ -47,11 +52,13 @@ fun SellerHeaderSection(
             modifier = Modifier.fillMaxWidth()
         ) {
 
-            // 1st Column: Image box
+            // =========================
+            // LEFT: IMAGE
+            // =========================
             Box(
                 modifier = Modifier
                     .size(72.dp)
-                    .clip(RoundedCornerShape(12.dp)) // ✅ rounded corners
+                    .clip(RoundedCornerShape(12.dp))
                     .border(
                         1.dp,
                         Color.LightGray,
@@ -62,14 +69,18 @@ fun SellerHeaderSection(
                     model = seller.imageUrl,
                     contentDescription = null,
                     modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop // ✅ fill + crop
+                    contentScale = ContentScale.Crop
                 )
             }
 
             Spacer(modifier = Modifier.width(12.dp))
 
-            // 2nd Column: Seller Info
-            Column {
+            // =========================
+            // MIDDLE: SELLER INFO
+            // =========================
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
                 Text(
                     text = seller.name,
                     style = MaterialTheme.typography.bodyLarge,
@@ -86,8 +97,29 @@ fun SellerHeaderSection(
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
-        }
 
+            // =========================
+            // RIGHT: RATING
+            // =========================
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Icon(
+                    imageVector = Icons.Default.Star,
+                    contentDescription = "Rating",
+                    tint = Color(0xFFFFC107)
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                Text(
+                    text = String.format("%.1f", seller.rating),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
         Spacer(modifier = Modifier.height(12.dp))
 
         // =========================
@@ -107,9 +139,90 @@ fun SellerHeaderSection(
 
             // 2nd Column: text
             Text(
-                text = "Delivery time: 2 days",
+                text = "Delivery time: ${seller.deliveryTime}",
                 style = MaterialTheme.typography.bodyMedium
             )
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+
+            // =========================
+            // 1st COLUMN: YEARS ON PLATFORM
+            // =========================
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .border(1.dp, Color.LightGray, RoundedCornerShape(12.dp))
+                    .padding(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "${SellerRepository.getYearsOnPlatform(seller.id)} years",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+
+                Text(
+                    text = "On Platform",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Gray
+                )
+            }
+
+            // =========================
+            // 2nd COLUMN: ORDERS
+            // =========================
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .border(1.dp, Color.LightGray, RoundedCornerShape(12.dp))
+                    .padding(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "${SellerRepository.getOrdersCompleted(seller.id)}",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+
+                Text(
+                    text = "Orders",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Gray
+                )
+            }
+
+            // =========================
+            // 3rd COLUMN: PRODUCTS
+            // =========================
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .border(1.dp, Color.LightGray, RoundedCornerShape(12.dp))
+                    .padding(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                val productCount = ProductRepository.products.count {
+                    it.sellerId == seller.id
+                }
+
+                Text(
+                    text = "$productCount",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+
+                Text(
+                    text = "Products",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Gray
+                )
+            }
         }
     }
 }
