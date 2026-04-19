@@ -9,3 +9,4 @@ data class Seller(
     val deliveryFee: Double,
     val imageUrl: String
 )
+

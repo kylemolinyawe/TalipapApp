@@ -1,6 +1,7 @@
 package com.example.talipapapp.ui.components.seller
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -19,7 +20,8 @@ import com.example.talipapapp.models.Product
 @Composable
 fun SellerProductSection(
     category: String,
-    products: List<Product>
+    products: List<Product>,
+    onProductClick: (Int) -> Unit   // ✅ ADDED
 ) {
 
     Column(
@@ -28,14 +30,13 @@ fun SellerProductSection(
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
 
-        // 🔹 Category Title
+        // Category Title
         Text(
             text = category,
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(vertical = 8.dp)
         )
 
-        // 🔹 Horizontal Product List
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier.fillMaxWidth()
@@ -44,14 +45,18 @@ fun SellerProductSection(
             items(products) { product ->
 
                 Column(
-                    modifier = Modifier.width(140.dp)
+                    modifier = Modifier
+                        .width(140.dp)
+                        .clickable {   // ✅ CLICK HANDLER ADDED
+                            onProductClick(product.id)
+                        }
                 ) {
 
-                    // 🔹 Rounded Image Container
+                    // Image box
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .aspectRatio(1f) // 🔥 forces perfect square
+                            .aspectRatio(1f)
                             .border(
                                 1.dp,
                                 Color.LightGray,
@@ -69,14 +74,12 @@ fun SellerProductSection(
 
                     Spacer(modifier = Modifier.height(6.dp))
 
-                    // Price
                     Text(
                         text = "₱ %.2f".format(product.price),
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Bold
                     )
 
-                    // Name
                     Text(
                         text = product.name,
                         style = MaterialTheme.typography.bodySmall,

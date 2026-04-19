@@ -36,7 +36,7 @@ fun FilterChipItem(
         // 🔲 Icon box
         Box(
             modifier = Modifier
-                .size(56.dp)
+                .size(72.dp)
                 .border(1.dp, Color.LightGray, RoundedCornerShape(12.dp)),
             contentAlignment = Alignment.Center
         ) {

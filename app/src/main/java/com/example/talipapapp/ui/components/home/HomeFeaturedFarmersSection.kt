@@ -15,15 +15,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.talipapapp.models.Product
+import com.example.talipapapp.models.Seller
 
 @Composable
-fun HomeFreshTodaySection(
-    products: List<Product>,
-    onProductClick: (Int) -> Unit
+fun HomeFeaturedFarmersSection(
+    sellers: List<Seller>,
+    onSellerClick: (Int) -> Unit
 ) {
 
-    val freshProducts = products.take(10)
+    val featuredSellers = sellers.take(10)
 
     Column(
         modifier = Modifier
@@ -31,27 +31,26 @@ fun HomeFreshTodaySection(
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
 
-        // Row 1: Header
+        // Header
         Text(
-            text = "Fresh Today",
+            text = "Featured Farmers",
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(vertical = 8.dp),
             fontWeight = FontWeight.Bold
         )
 
-        // Row 2: Product list
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
 
-            items(freshProducts) { product ->
+            items(featuredSellers) { seller ->
 
                 Column(
                     modifier = Modifier
                         .width(140.dp)
                         .clickable {
-                            onProductClick(product.id)
+                            onSellerClick(seller.id)
                         }
                 ) {
 
@@ -69,26 +68,28 @@ fun HomeFreshTodaySection(
                             .padding(6.dp)
                     ) {
                         AsyncImage(
-                            model = product.imageUrl,
-                            contentDescription = product.name,
+                            model = seller.imageUrl,
+                            contentDescription = seller.name,
                             modifier = Modifier.fillMaxSize()
                         )
                     }
 
                     Spacer(modifier = Modifier.height(6.dp))
 
-                    // Price
+                    // Seller name
                     Text(
-                        text = "₱ %.2f".format(product.price),
+                        text = seller.name,
                         style = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1
                     )
 
-                    // Name
+                    // Location
                     Text(
-                        text = product.name,
+                        text = seller.location,
                         style = MaterialTheme.typography.bodySmall,
-                        maxLines = 2
+                        maxLines = 1,
+                        color = Color.Gray
                     )
                 }
             }

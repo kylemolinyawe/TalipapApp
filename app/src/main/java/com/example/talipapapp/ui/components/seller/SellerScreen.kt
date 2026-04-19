@@ -70,7 +70,10 @@ fun SellerScreen(
             item {
                 SellerProductSection(
                     category = "All Products",
-                    products = sellerProducts
+                    products = sellerProducts,
+                    onProductClick = { productId ->
+                        navController.navigate("product/$productId")
+                    }
                 )
             }
 
@@ -80,7 +83,10 @@ fun SellerScreen(
                 item {
                     SellerProductSection(
                         category = category,
-                        products = products
+                        products = products,
+                        onProductClick = { productId ->
+                            navController.navigate("product/$productId")
+                        }
                     )
                 }
             }
