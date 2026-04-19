@@ -3,6 +3,8 @@ package com.example.talipapapp.ui.components.profile
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Icon
@@ -14,18 +16,43 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 fun ProfileScreen() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        // Icon on the screen
-        Icon(
-            imageVector = Icons.Default.AccountCircle,
-            contentDescription = "profile",
-            tint = Color(0xFF0F9D58)
+
+    Column(modifier = Modifier.fillMaxSize()) {
+
+        // 🔒 STATIC HEADER (does NOT scroll)
+        ProfileHeaderSection(
+            onSettingsClick = { }
         )
-        // Text on the screen
-        Text(text = "Profile", color = Color.Black)
+
+        // 📜 SCROLLABLE CONTENT
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+        ) {
+
+            ProfileTopSection(
+                onViewProfileClick = {},
+                onOrdersClick = {},
+                onAddressesClick = {}
+            )
+
+            ProfileBalanceSection()
+
+            ProfileGeneralSection(
+                onHelpClick = {},
+                onBusinessClick = {},
+                onTermsClick = {}
+            )
+
+            // ProfileBottomSection.kt
+            // 2 rows
+            // 1st row - Log out button
+            // 2nd row - text 'Version 0.0.1' (center align)
+            ProfileBottomSection(
+                onLogoutClick = {}
+            )
+        }
     }
 }
