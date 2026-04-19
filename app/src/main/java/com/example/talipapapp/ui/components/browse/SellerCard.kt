@@ -21,7 +21,8 @@ import com.example.talipapapp.models.Product
 @Composable
 fun SellerCard(
     seller: Seller,
-    onProductClick: (Int) -> Unit
+    onProductClick: (Int) -> Unit,
+    onSellerClick: (Int) -> Unit
 ) {
 
     val sellerProducts = ProductRepository.products.filter {
@@ -40,8 +41,13 @@ fun SellerCard(
 
         Column {
 
-            // Seller Info
+            // CLICKABLE SELLER INFO
             Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        onSellerClick(seller.id)
+                    },
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
@@ -80,7 +86,10 @@ fun SellerCard(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Products (FROM REPOSITORY)
+            // Products
+            // *TODO*
+            // Only display the first 8 products, add a right facing arrow at the end
+            // that leads to the seller profile screen
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {

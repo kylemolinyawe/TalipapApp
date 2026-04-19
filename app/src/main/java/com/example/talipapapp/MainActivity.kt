@@ -20,6 +20,7 @@ import com.example.talipapapp.ui.components.cart.CartScreen
 import com.example.talipapapp.ui.components.checkout.CheckoutScreen
 import com.example.talipapapp.ui.components.foryou.ForYouScreen
 import com.example.talipapapp.ui.components.product.ProductScreen
+import com.example.talipapapp.ui.components.seller.SellerScreen
 import com.example.talipapapp.ui.theme.TalipapAppTheme
 import com.example.talipapapp.utils.Constants
 
@@ -38,7 +39,8 @@ class MainActivity : ComponentActivity() {
 
                 val hideBottomBarRoutes = listOf(
                     "checkout",
-                    "product"
+                    "product",
+                    "seller"
                 )
 
                 val currentBaseRoute = currentRoute?.substringBefore("/")
@@ -114,6 +116,11 @@ fun NavHostContainer(
                     productId = productId,
                     navController = navController
                 )
+            }
+
+            composable("seller/{sellerId}") { backStackEntry ->
+                val sellerId = backStackEntry.arguments?.getString("sellerId")?.toInt() ?: 0
+                SellerScreen(sellerId = sellerId, navController)
             }
         }
     )}
